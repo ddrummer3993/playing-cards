@@ -66,6 +66,8 @@ public class CardTrick {
                 redCount++;
             }
         }
+
+        //below: created local class in tally method.
         class DisplayComparator implements Comparator<Card> {
 
             @Override
@@ -78,8 +80,19 @@ public class CardTrick {
 
         }
 
+        // below: defines anonymous class, calls instance, and assigns it to "comparator" field.
+        Comparator<Card> comparator = new Comparator<>() {
 
-        DisplayComparator comparator = new DisplayComparator();
+            @Override
+            public int compare(Card card1, Card card2) {
+                int comparison = card1.getSuit().getColor().compareTo(card2.getSuit().getColor());
+                comparison = (comparison != 0) ? comparison : card1.getSuit().compareTo(card2.getSuit());
+                comparison = (comparison != 0) ? comparison : card1.getRank().compareTo(card2.getRank());
+                return comparison;
+            }
+
+        };
+
         Collections.sort((LinkedList<Card>) blackPile, comparator);
         Collections.sort((LinkedList<Card>) redPile, comparator);
 
